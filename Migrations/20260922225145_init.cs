@@ -24,11 +24,10 @@ namespace OrganisationSystem.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RefranceId = table.Column<string>(type: "nvarchar(450)", nullable: false, defaultValueSql: "CAST(NEXT VALUE FOR dbo.OrganizationReferenceSequence AS varchar(20))"),
+                    RefranceId = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValueSql: "CAST(NEXT VALUE FOR dbo.OrganizationReferenceSequence AS varchar(20))"),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,12 +75,6 @@ namespace OrganisationSystem.Migrations
                 name: "IX_organisations_Name",
                 table: "organisations",
                 column: "Name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_organisations_RefranceId",
-                table: "organisations",
-                column: "RefranceId",
                 unique: true);
 
             migrationBuilder.CreateIndex(

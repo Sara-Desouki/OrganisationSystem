@@ -14,17 +14,24 @@ namespace OrganisationSystem.Controllers
     public class OrganisationController( OrganisationService organisationServer) : ControllerBase
     {
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+       [Authorize(Roles = "Admin")]
         public ActionResult Add(OrganisationDto organisationDto)
         {
-           var result = organisationServer.Add(organisationDto);
-            
-            return Ok(result);
+            try
+            {
+                var result = organisationServer.Add(organisationDto);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message }); 
+            }
         }
 
 
         [HttpGet]
-        public ActionResult<IEnumerable<Organisations>> GetByPageSize(int pagesize , int pagenumber)
+        public ActionResult GetByPageSize(int pagesize , int pagenumber)
         {
             var result = organisationServer.GetByPageSize(pagesize, pagenumber);
             return Ok(result);

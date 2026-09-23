@@ -61,33 +61,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Organisations"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Organisations"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Organisations"
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -159,69 +133,24 @@
     "schemas": {
       "OrganisationDto": {
         "required": [
-          "address",
-          "email",
-          "name"
+          "name",
+          "type"
         ],
         "type": "object",
         "properties": {
           "name": {
+            "maxLength": 200,
             "minLength": 1,
             "type": "string"
           },
           "email": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "address": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "description": {
             "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Organisations": {
-        "required": [
-          "address",
-          "description",
-          "email"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "refranceId": {
-            "type": "string",
+            "format": "email",
             "nullable": true
           },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
+          "type": {
             "minLength": 1,
             "type": "string"
-          },
-          "address": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "description": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "volunteers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Volunteer"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -254,35 +183,6 @@
           "Volunteer"
         ],
         "type": "string"
-      },
-      "Volunteer": {
-        "required": [
-          "email",
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "email": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "organationId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "organisation": {
-            "$ref": "#/components/schemas/Organisations"
-          }
-        },
-        "additionalProperties": false
       }
     }
   }

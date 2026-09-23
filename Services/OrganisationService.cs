@@ -1,4 +1,5 @@
-﻿using OrganisationSystem.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using OrganisationSystem.Data;
 using OrganisationSystem.Models;
 using OrganisationSystem.Models.DTOs;
 
@@ -9,12 +10,13 @@ namespace OrganisationSystem.Services
 
         public Organisations Add(OrganisationDto organisationDto)
         {
+
+
             var Org = new Organisations
             {
                 Name = organisationDto.Name,
                 Email = organisationDto.Email,
-                Address = organisationDto.Address,
-                Description = organisationDto.Description
+                Type = organisationDto.Type
             };
 
                orgRepo.Add(Org);
@@ -23,9 +25,20 @@ namespace OrganisationSystem.Services
         }
 
 
-        public IEnumerable<Organisations> GetByPageSize(int pagesize, int pagenumber)
+        public PagedResult GetByPageSize(int pagesize, int pagenumber)
         {
-           return orgRepo.GetByPageSize(pagesize , pagenumber);
+            int totalCount = orgRepo.GetAll().Count();
+
+            var result = orgRepo.GetByPageSize(pagesize, pagenumber);
+
+
+            return new PagedResult
+            {
+                item = result,
+                pageNumber = pagenumber,
+                pageSize = pagesize,
+                totalCount = totalCount
+            };
         }
     }
 }

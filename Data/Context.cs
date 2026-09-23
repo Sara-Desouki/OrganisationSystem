@@ -36,12 +36,6 @@ namespace OrganisationSystem.Data
                 .IsUnique();
 
                 entity.Property(x => x.RefranceId)
-                .IsRequired();
-
-                entity.HasIndex(x => x.RefranceId)
-                .IsUnique();
-
-                entity.Property(x => x.RefranceId)
             .HasDefaultValueSql(
                 "CAST(NEXT VALUE FOR dbo.OrganizationReferenceSequence AS varchar(20))"
             );

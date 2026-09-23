@@ -4,13 +4,14 @@ namespace OrganisationSystem.Models.DTOs
 {
     public class OrganisationDto
     {
-        [Required]
+
+        [Required(ErrorMessage ="Name is required")]
+        [MaxLength(200, ErrorMessage = "Name must not exceed 200 characters")]
         public string Name { get; set; }
-        [Required]
-        public string Email { get; set; }
-        [Required]
-        public string Address { get; set; }
         
-        public string Description { get; set; }
+        [EmailAddress(ErrorMessage = "Invalid email format")]
+        public string? Email { get; set; }
+        [Required]
+        public string Type { get; set; }
     }
 }

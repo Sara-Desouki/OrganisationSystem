@@ -11,7 +11,7 @@ using OrganisationSystem.Data;
 namespace OrganisationSystem.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20260919144848_init")]
+    [Migration("20260922225145_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -35,16 +35,7 @@ namespace OrganisationSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -55,15 +46,16 @@ namespace OrganisationSystem.Migrations
                     b.Property<string>("RefranceId")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)")
+                        .HasColumnType("nvarchar(max)")
                         .HasDefaultValueSql("CAST(NEXT VALUE FOR dbo.OrganizationReferenceSequence AS varchar(20))");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.HasIndex("RefranceId")
                         .IsUnique();
 
                     b.ToTable("organisations");

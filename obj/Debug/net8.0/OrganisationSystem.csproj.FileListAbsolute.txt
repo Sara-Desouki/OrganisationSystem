@@ -154,3 +154,4 @@ F:\Projects\Organisation\Organisation\bin\Debug\net8.0\Microsoft.AspNetCore.Cryp
 F:\Projects\Organisation\Organisation\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
 F:\Projects\Organisation\Organisation\bin\Debug\net8.0\Newtonsoft.Json.dll
 F:\Projects\Organisation\Organisation\bin\Debug\net8.0\System.Xml.XPath.XmlDocument.dll
+F:\Projects\Organisation\Organisation\obj\Debug\net8.0\OrganisationSystem.sourcelink.json

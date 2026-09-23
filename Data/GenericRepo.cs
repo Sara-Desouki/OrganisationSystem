@@ -15,20 +15,23 @@ namespace OrganisationSystem.Data
                 context.SaveChanges();
             }
 
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception("This name already exists, please choose another name.", ex);
             }
         }
-    
+    public IQueryable<T> GetAll()
+        {
+            return context.Set<T>();
+        }
 
 
-    public IEnumerable<T> GetByPageSize(int pagesize, int pagenumber)
+    public IQueryable<T> GetByPageSize(int pagesize, int pagenumber)
         {
 
             var result = context.Set<T>()
                 .Skip((pagenumber - 1) * pagesize)
-                .Take(pagesize).ToList();
+                .Take(pagesize);
 
             return result;
         }
