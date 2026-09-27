@@ -21,6 +21,7 @@ namespace Organisation
             builder.Services.AddSingleton(jwtOptions);
             builder.Services.AddScoped<Context>();
             builder.Services.AddScoped<OrganisationService>();
+            builder.Services.AddScoped<VolunteerService>();
             builder.Services.AddScoped(typeof(GenericRepo<>));
 
             builder.Services.AddAuthentication().AddJwtBearer("Bearer", options =>

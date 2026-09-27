@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OrganisationSystem.Models
 {
-    public class User
+    public class User : BaseModel
     {
 
-        public int Id { get; set; }
+        
         [Required]
         public string Password { get; set; }
         [Required]

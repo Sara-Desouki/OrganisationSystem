@@ -127,10 +127,143 @@
           }
         }
       }
+    },
+    "/Volunteer/add": {
+      "post": {
+        "tags": [
+          "Volunteer"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VolunteerDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VolunteerDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VolunteerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Volunteer/GetById": {
+      "get": {
+        "tags": [
+          "Volunteer"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Volunteer/UpdateVolunteer": {
+      "put": {
+        "tags": [
+          "Volunteer"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateVolunteerDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateVolunteerDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateVolunteerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Volunteer/GetByPazeSize": {
+      "get": {
+        "tags": [
+          "Volunteer"
+        ],
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "MaritalStatus": {
+        "enum": [
+          "Single",
+          "Married",
+          "Divorced",
+          "Widowed"
+        ],
+        "type": "string"
+      },
       "OrganisationDto": {
         "required": [
           "name",
@@ -151,6 +284,45 @@
           "type": {
             "minLength": 1,
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateVolunteerDto": {
+        "required": [
+          "name",
+          "organizationId"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "email": {
+            "maxLength": 254,
+            "type": "string",
+            "format": "email",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "maxLength": 20,
+            "pattern": "^01[0-2,5]{1}[0-9]{8}$",
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "organizationId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "$ref": "#/components/schemas/MaritalStatus"
           }
         },
         "additionalProperties": false
@@ -183,6 +355,45 @@
           "Volunteer"
         ],
         "type": "string"
+      },
+      "VolunteerDto": {
+        "required": [
+          "name",
+          "orgnisationId"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "email": {
+            "maxLength": 254,
+            "type": "string",
+            "format": "email",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "maxLength": 20,
+            "pattern": "^01[0-2,5]{1}[0-9]{8}$",
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "maritalStatus": {
+            "$ref": "#/components/schemas/MaritalStatus"
+          },
+          "orgnisationId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
       }
     }
   }

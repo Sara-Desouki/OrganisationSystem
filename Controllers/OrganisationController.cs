@@ -14,7 +14,7 @@ namespace OrganisationSystem.Controllers
     public class OrganisationController( OrganisationService organisationServer) : ControllerBase
     {
         [HttpPost]
-       [Authorize(Roles = "Admin")]
+      // [Authorize(Roles = "Admin")]
         public ActionResult Add(OrganisationDto organisationDto)
         {
             try
@@ -23,9 +23,9 @@ namespace OrganisationSystem.Controllers
 
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(new { message = ex.Message }); 
+                return BadRequest(e.InnerException.Message); 
             }
         }
 

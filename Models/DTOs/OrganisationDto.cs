@@ -10,7 +10,7 @@ namespace OrganisationSystem.Models.DTOs
         public string Name { get; set; }
         
         [EmailAddress(ErrorMessage = "Invalid email format")]
-        public string? Email { get; set; }
+        public string Email { get; set; }
         [Required]
         public string Type { get; set; }
     }

@@ -5,20 +5,13 @@ using OrganisationSystem.Models.DTOs;
 
 namespace OrganisationSystem.Data
 {
-    public class GenericRepo<T>(Context context) where T : class, new()
+    public class GenericRepo<T>(Context context) where T : BaseModel
     {
         public void Add(T entity)
         {
             context.Set<T>().Add(entity);
-            try
-            {
                 context.SaveChanges();
-            }
 
-            catch (DbUpdateException ex)
-            {
-                throw new Exception("This name already exists, please choose another name.", ex);
-            }
         }
     public IQueryable<T> GetAll()
         {
@@ -35,5 +28,36 @@ namespace OrganisationSystem.Data
 
             return result;
         }
+
+        public IQueryable<T> GetVolunteerById (int id) {
+
+            var result = context.Set<T>()
+                .Where(x => x.Id == id);
+
+            return result;
+       
+        }
+        public T GetById(int id)
+        {
+            var result = context.Set<T>()
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+            
+
+            return result;
+
+        }
+
+        public bool Exists(int id)
+        {
+            return context.Set<T>().Any(x => x.Id == id);
+        }
+
+
+        public void SaveChanges()
+        {
+            context.SaveChanges();
+        }
+
     }
 }

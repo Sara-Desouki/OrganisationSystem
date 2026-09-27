@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -18,6 +19,11 @@ namespace OrganisationSystem.Migrations
                 schema: "dbo",
                 startValue: 700000L);
 
+            migrationBuilder.CreateSequence(
+                name: "VolunteerReferenceSequence",
+                schema: "dbo",
+                startValue: 800000L);
+
             migrationBuilder.CreateTable(
                 name: "organisations",
                 columns: table => new
@@ -26,7 +32,7 @@ namespace OrganisationSystem.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RefranceId = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValueSql: "CAST(NEXT VALUE FOR dbo.OrganizationReferenceSequence AS varchar(20))"),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -55,10 +61,13 @@ namespace OrganisationSystem.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrganationId = table.Column<int>(type: "int", nullable: false),
-                    OrganisationId = table.Column<int>(type: "int", nullable: false)
+                    RefranceId = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValueSql: "CAST(NEXT VALUE FOR dbo.VolunteerReferenceSequence AS varchar(20))"),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(254)", maxLength: 254, nullable: false),
+                    OrganisationId = table.Column<int>(type: "int", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    DateOfBirth = table.Column<DateOnly>(type: "date", nullable: true),
+                    MaritalStatus = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -97,6 +106,10 @@ namespace OrganisationSystem.Migrations
 
             migrationBuilder.DropSequence(
                 name: "OrganizationReferenceSequence",
+                schema: "dbo");
+
+            migrationBuilder.DropSequence(
+                name: "VolunteerReferenceSequence",
                 schema: "dbo");
         }
     }

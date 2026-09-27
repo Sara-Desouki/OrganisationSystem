@@ -2,15 +2,15 @@
 
 namespace OrganisationSystem.Models
 {
-    public class Organisations
+    public class Organisations : BaseModel
     {
-        public int Id { get; set; }
+      
 
         public string RefranceId { get; set; }
        
         public string Name { get; set; }
 
-        public string? Email { get; set; }
+        public string Email { get; set; }
         
         public string Type { get; set; }
 

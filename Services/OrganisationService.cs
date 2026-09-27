@@ -2,6 +2,7 @@
 using OrganisationSystem.Data;
 using OrganisationSystem.Models;
 using OrganisationSystem.Models.DTOs;
+using System.Linq.Expressions;
 
 namespace OrganisationSystem.Services
 {
@@ -11,7 +12,6 @@ namespace OrganisationSystem.Services
         public Organisations Add(OrganisationDto organisationDto)
         {
 
-
             var Org = new Organisations
             {
                 Name = organisationDto.Name,
@@ -19,7 +19,9 @@ namespace OrganisationSystem.Services
                 Type = organisationDto.Type
             };
 
-               orgRepo.Add(Org);
+            orgRepo.Add(Org);
+
+
             return Org;
 
         }
@@ -40,5 +42,8 @@ namespace OrganisationSystem.Services
                 totalCount = totalCount
             };
         }
+
+
+
     }
 }
