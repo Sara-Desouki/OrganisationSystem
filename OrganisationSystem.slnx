@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Organisation/OrganisationSystem.csproj" />
+  <Project Path="OrganisationSystem.Tests/OrganisationSystem.Tests.csproj" Id="302d9d86-899a-440d-8cd1-e6116268de57" />
+</Solution>
