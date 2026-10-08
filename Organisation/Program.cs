@@ -1,11 +1,12 @@
 
 using Microsoft.IdentityModel.Tokens;
-using OrganisationSystem;
-using OrganisationSystem.Data;
+using OrganisationSystem.APILayer;
+using OrganisationSystem.ApplicationLayer.Interfaces;
+using OrganisationSystem.ApplicationLayer.Services;
+using OrganisationSystem.ApplicationLayer.Validator;
+using OrganisationSystem.Domain_Layer.Models;
+using OrganisationSystem.InfrastructureLayer;
 using OrganisationSystem.Models;
-using OrganisationSystem.Services;
-using OrganisationSystem.Validator;
-using OrganisationSystem.Validator;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -26,9 +27,11 @@ namespace Organisation
             builder.Services.AddScoped<OrganisationService>();
             builder.Services.AddScoped<VolunteerService>();
             builder.Services.AddScoped<VolunteerValidator>();
-         
+            builder.Services.AddScoped<VolunteerOpportunityService>();
+
             builder.Services.AddScoped<IGenericRepo<Volunteer>, GenericRepo<Volunteer>>();
             builder.Services.AddScoped<IGenericRepo<Organisations>, GenericRepo<Organisations>>();
+            builder.Services.AddScoped<IGenericRepo<VolunteerOpportunity>, GenericRepo<VolunteerOpportunity>>();
 
             builder.Services.AddAuthentication().AddJwtBearer("Bearer", options =>
             {
@@ -47,13 +50,15 @@ namespace Organisation
 
             );
 
+            builder.Services.AddAuthorization();
+
             builder.Services.AddControllers()
                  .AddJsonOptions(options =>
                  {
                        options.JsonSerializerOptions.Converters.Add(
                             new JsonStringEnumConverter(
                                 namingPolicy: null,
-                                allowIntegerValues: true
+                                allowIntegerValues: false
                              )
                 );
             });
@@ -70,10 +75,18 @@ namespace Organisation
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+
+                using var scope = app.Services.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<Context>();
+                DbSeeder.Seed(db);
             }
+
+            
 
             app.UseHttpsRedirection();
 
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
