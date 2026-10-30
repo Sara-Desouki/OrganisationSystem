@@ -48,7 +48,7 @@ namespace OrganisationSystem.ApplicationLayer.Services
                 Name = x.Name,
                 Email = x.Email,
                 OrganisationId = x.OrganisationId,
-                OrganisationReferenceId = x.Organisation.RefranceId,
+                OrganisationReferenceId = x.Organisation.ReferenceId,
                 OrganisationName = x.Organisation.Name,
             });
 
@@ -124,13 +124,13 @@ namespace OrganisationSystem.ApplicationLayer.Services
                 Name = x.Name,
                 Email = x.Email,
                 OrganisationId = x.OrganisationId,
-                OrganisationReferenceId  = x.Organisation.RefranceId,
+                OrganisationReferenceId  = x.Organisation.ReferenceId,
                 OrganisationName = x.Organisation.Name,
 
             }));
             return new PagedResult
             {
-                item = result,
+                Items = result,
                 pageNumber = pagenumber,
                 pageSize = pagesize,
                 totalCount = totalCount

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OrganisationSystem.APILayer;
 using OrganisationSystem.ApplicationLayer.DTOs;
 using OrganisationSystem.ApplicationLayer.Services;
 
@@ -11,22 +12,23 @@ namespace OrganisationSystem.ApiLayer.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    [Authorize]
-    public class OrganisationController( OrganisationService organisationServer) : ControllerBase
+   [Authorize]
+    public class OrganisationController( OrganisationService organisationServer ) : ControllerBase
     {
-        [HttpPost]
+       [HttpPost]
        [Authorize(Roles = "Admin")]
         public ActionResult Add(OrganisationDto organisationDto)
         {
+            ApiResponse<Organisations>  apiRequest = new ApiResponse<Organisations>();
             try
             {
                 var result = organisationServer.Add(organisationDto);
 
-                return Ok(result);
+                return Ok(apiRequest.Successed(result));
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException.Message); 
+                return BadRequest(apiRequest.failed(e.Message , 400)); 
             }
         }
 
@@ -35,8 +37,10 @@ namespace OrganisationSystem.ApiLayer.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult GetByPageSize(int pagesize , int pagenumber)
         {
+            ApiResponse<PagedResult> apiResponse = new ApiResponse<PagedResult>();
+
             var result = organisationServer.GetByPageSize(pagesize, pagenumber);
-            return Ok(result);
+            return Ok(apiResponse.Successed(result));
         }
 
     }

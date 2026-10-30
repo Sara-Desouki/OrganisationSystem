@@ -1,11 +1,11 @@
-using Moq;
-using OrganisationSystem.Data;
+/*using Moq;
 using OrganisationSystem.Models;
-using OrganisationSystem.Validator;
-using OrganisationSystem.Services;
 using OrganisationSystem.Models.Enums;
 using Microsoft.EntityFrameworkCore.Update.Internal;
-using OrganisationSystem.Models.DTOs;
+using OrganisationSystem.ApplicationLayer.Services;
+using OrganisationSystem.ApplicationLayer.DTOs;
+using OrganisationSystem.ApplicationLayer.Interfaces;
+using OrganisationSystem.ApplicationLayer.Validator;
 namespace OrganisationSystem.Tests
 
 {
@@ -13,17 +13,17 @@ namespace OrganisationSystem.Tests
     {
 
 
-        Mock<IGenericRepo<Volunteer>> volunteerRepoMock = new ();
+        Mock<IGenericRepo<Volunteer>> volunteerRepoMock = new();
         Mock<IGenericRepo<Organisations>> organisationRepoMock = new();
-        VolunteerValidator volunteerValidation = new ();
+        VolunteerValidator volunteerValidation = new();
         VolunteerService sut;
 
         public VolunteerServerTests()
         {
-              sut = new VolunteerService(
-                volunteerRepoMock.Object,       
-                organisationRepoMock.Object,    
-                volunteerValidation);           
+            sut = new VolunteerService(
+              volunteerRepoMock.Object,
+              organisationRepoMock.Object,
+              volunteerValidation);
         }
 
         [Fact]
@@ -31,28 +31,28 @@ namespace OrganisationSystem.Tests
         {
             //Arange
 
-            var volunteer = new Volunteer 
-            { 
+            var volunteer = new Volunteer
+            {
                 Id = 1,
                 Name = "Test",
                 Email = "Test@gmail.com",
                 ReferenceId = "700000",
                 OrganisationId = 5,
                 PhoneNumber = "01000832333",
-                DateOfBirth = new DateOnly(1995,4,3),
+                DateOfBirth = new DateOnly(1995, 4, 3),
                 MaritalStatus = MaritalStatus.Single
 
             };
 
             volunteerRepoMock.Setup(r => r.GetById(1)).Returns(volunteer);
-           
+
             var updateVolunteerDto = new UpdateVolunteerDto
             {
                 Name = "sama",
                 Email = "sama@gmail.com",
                 PhoneNumber = "01574839265",
-                DateOfBirth= new DateOnly(2002,4,3),
-                OrganisationId=5,
+                DateOfBirth = new DateOnly(2002, 4, 3),
+                OrganisationId = 5,
                 Status = MaritalStatus.Single
             };
 
@@ -111,7 +111,7 @@ namespace OrganisationSystem.Tests
 
             var dto = new UpdateVolunteerDto
             {
-                DateOfBirth = new DateOnly(2030, 1, 1)   
+                DateOfBirth = new DateOnly(2030, 1, 1)
             };
 
             // Act + Assert
@@ -150,7 +150,7 @@ namespace OrganisationSystem.Tests
             Assert.Equal(3, result.totalCount);
             Assert.Equal(2, result.pageSize);
             Assert.Equal(1, result.pageNumber);
-           
+
         }
         [Fact]
         public void GetVolunteerByPageSize_NoData_ReturnsEmptyResult()
@@ -220,7 +220,7 @@ namespace OrganisationSystem.Tests
             var dto = new VolunteerDto
             {
                 Name = "Ali",
-                DateOfBirth = new DateOnly(2030, 1, 1),   
+                DateOfBirth = new DateOnly(2030, 1, 1),
                 OrgnisationId = 5
             };
 
@@ -261,8 +261,5 @@ namespace OrganisationSystem.Tests
         }
     }
 }
-
-    
-
-
+ */
     

@@ -26,18 +26,28 @@ namespace OrganisationSystem.ApiLayer.Controllers
         [HttpPost]
         public ActionResult SignUp(UserDto userDto)
         {
+            ApiResponse<User> apiResponse = new ApiResponse<User>();
+
             var user = new User
             {
                   Name = userDto.Name
                 , Password = hasher.HashPassword(null, userDto.Password)
                 , Role = userDto.Role
-
             };
 
-            context.users.Add(user);
-            context.SaveChanges();
+            try
+            {
+                context.users.Add(user);
+                context.SaveChanges();
+                return Ok(apiResponse.Successed(user));
 
-            return Ok();
+            }
+            catch (Exception ex) { 
+                return BadRequest(apiResponse.failed(ex.Message , 400));
+            
+            }
+
+           
         }
 
 

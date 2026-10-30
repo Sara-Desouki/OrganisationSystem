@@ -2,7 +2,7 @@
 {
     public class PagedResult
     {
-        public IQueryable item { get; set; }
+        public IQueryable Items { get; set; }
 
         public int totalCount { get; set; }
 

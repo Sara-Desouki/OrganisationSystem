@@ -105,7 +105,7 @@ namespace OrganisationSystem.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("RefranceId")
+                    b.Property<string>("ReferenceId")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)")

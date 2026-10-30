@@ -12,7 +12,7 @@ using OrganisationSystem.InfrastructureLayer;
 namespace OrganisationSystem.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20261008095833_init")]
+    [Migration("20261030010456_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -108,7 +108,7 @@ namespace OrganisationSystem.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("RefranceId")
+                    b.Property<string>("ReferenceId")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)")

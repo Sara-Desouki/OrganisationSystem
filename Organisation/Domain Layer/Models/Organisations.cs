@@ -6,7 +6,7 @@ namespace OrganisationSystem.Models
 {
     public class Organisations : BaseModel
     {
-        public string RefranceId { get; set; }
+        public string ReferenceId { get; set; }
        
         public string Name { get; private set; }
 

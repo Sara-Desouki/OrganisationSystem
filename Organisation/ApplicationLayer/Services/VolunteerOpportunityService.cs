@@ -53,7 +53,7 @@ namespace OrganisationSystem.ApplicationLayer.Services
                     Title = x.Title ,
                     Description = x.Description ,
                     organizationId = x.OrganisationId ,
-                    organizationReferenceId = x.Organisation.RefranceId,
+                    organizationReferenceId = x.Organisation.ReferenceId,
                     organizationName = x.Organisation.Name,
                     startDate = x.StartDate,
                     endDate = x.EndDate,
@@ -73,7 +73,7 @@ namespace OrganisationSystem.ApplicationLayer.Services
                 Description = x.Description,
                 ReferenceId = x.ReferenceId,
                 OrganisationId = x.Organisation.Id,
-                OrganisationReferenceId = x.Organisation.RefranceId,
+                OrganisationReferenceId = x.Organisation.ReferenceId,
                 OrganisationName = x.Organisation.Name,
                 OpportunityStatus = x.Status
             });

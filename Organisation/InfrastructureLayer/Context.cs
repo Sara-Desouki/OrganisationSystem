@@ -49,11 +49,10 @@ namespace OrganisationSystem.InfrastructureLayer
                 entity.HasIndex(x => x.Name)
                 .IsUnique();
 
-                entity.Property(x => x.RefranceId)
+                entity.Property(x => x.ReferenceId)
                     .HasDefaultValueSql(
                 "CAST(NEXT VALUE FOR dbo.OrganizationReferenceSequence AS varchar(20))");
             });
-
 
             modelBuilder.Entity<Volunteer>(entity => {
 
@@ -88,6 +87,7 @@ namespace OrganisationSystem.InfrastructureLayer
             {
                 entity.Property(x => x.Name)
                    .IsRequired()
+                   
                    .HasMaxLength(200);
 
                 entity.HasIndex(x => x.Name)
@@ -121,6 +121,8 @@ namespace OrganisationSystem.InfrastructureLayer
 
 
             });
+
+            
 
         }
     }

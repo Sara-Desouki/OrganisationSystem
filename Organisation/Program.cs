@@ -25,6 +25,7 @@ namespace Organisation
             builder.Services.AddSingleton(jwtOptions);
             builder.Services.AddScoped<Context>();
             builder.Services.AddScoped<OrganisationService>();
+            
             builder.Services.AddScoped<VolunteerService>();
             builder.Services.AddScoped<VolunteerValidator>();
             builder.Services.AddScoped<VolunteerOpportunityService>();

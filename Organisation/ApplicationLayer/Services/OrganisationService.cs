@@ -31,7 +31,7 @@ namespace OrganisationSystem.ApplicationLayer.Services
 
             return new PagedResult
             {
-                item = result,
+                Items = result,
                 pageNumber = pagenumber,
                 pageSize = pagesize,
                 totalCount = totalCount
