@@ -15,13 +15,13 @@ namespace OrganisationSystem.ApiLayer.Controllers
     {
         [HttpPost]
        // [Authorize(Roles = "Admin")]
-        public IActionResult add(VolunteerDto volunteerDto)
+        public async Task<IActionResult> addAsync(VolunteerDto volunteerDto)
         {
             ApiResponse<Volunteer> apiResponse = new ApiResponse<Volunteer>();
 
             try
             {
-                var volunteer = volunteerService.Add(volunteerDto);
+                var volunteer = await volunteerService.AddAsync(volunteerDto);
                 return Ok(apiResponse.Successed(volunteer));
             }
             catch (Exception ex)
@@ -32,12 +32,12 @@ namespace OrganisationSystem.ApiLayer.Controllers
 
         [HttpGet]
         //[Authorize(Roles = "Admin")]
-        public ActionResult GetById(int id)
+        public async Task<ActionResult> GetByIdAsync(int id)
         {
             ApiResponse<VolunteerResponseDto> apiResponse = new ApiResponse<VolunteerResponseDto>();
             try
             {
-                var result = volunteerService.GetById(id);
+                var result =await volunteerService.GetByIdAsync(id);
                 return Ok(apiResponse.Successed(result));
             }
             catch (Exception ex)
@@ -49,12 +49,12 @@ namespace OrganisationSystem.ApiLayer.Controllers
 
         [HttpPut]
         //[Authorize(Roles = "Admin")]
-        public ActionResult UpdateVolunteer(int id, UpdateVolunteerDto updateVolunteerDto)
+        public async Task<ActionResult> UpdateVolunteer(int id, UpdateVolunteerDto updateVolunteerDto)
         {
             ApiResponse<UpdatedVolunteerDto> apiResponse = new ApiResponse<UpdatedVolunteerDto>();
             try
             {
-                var updatedVolunteer = volunteerService.UpdateVolunteer(id, updateVolunteerDto);
+                var updatedVolunteer = await volunteerService.UpdateVolunteerAsync(id, updateVolunteerDto);
                 return Ok(apiResponse.Successed(updatedVolunteer));
             }
 
@@ -66,10 +66,10 @@ namespace OrganisationSystem.ApiLayer.Controllers
 
         [HttpGet]
         //[Authorize(Roles = "Admin")]
-        public IActionResult GetByPazeSize(int pageSize, int pageNumber)
+        public async Task<IActionResult> GetByPazeSizeAsync(int pageSize, int pageNumber)
         {
             ApiResponse<PagedResult> apiResponse = new ApiResponse<PagedResult>();
-            var result = volunteerService.GetByPageSize(pageSize, pageNumber);
+            var result = await volunteerService.GetByPageSizeAsync(pageSize, pageNumber);
 
             return Ok(apiResponse.Successed(result));
         }

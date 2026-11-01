@@ -9,10 +9,10 @@ namespace OrganisationSystem.InfrastructureLayer
 {
     public class GenericRepo<T>(Context context) : IGenericRepo<T> where T : BaseModel
     {
-        public void Add(T entity)
+        public async Task AddAsync(T entity)
         {
             context.Set<T>().Add(entity);
-            context.SaveChanges();
+            await  context.SaveChangesAsync();
 
         }
         public IQueryable<T> GetAll()
@@ -36,34 +36,34 @@ namespace OrganisationSystem.InfrastructureLayer
 
         }
 
-        public TResult GetSpecificById<TResult>(int id, Expression<Func<T, TResult>> select)
+        public async Task<TResult> GetSpecificByIdAsync<TResult>(int id, Expression<Func<T, TResult>> select)
         {
-            var result = context.Set<T>()
+            var result = await context.Set<T>()
                 .Where(x => x.Id == id)
                 .Select(select)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             return result;
         }
 
-        public T GetById(int id)
+        public async Task<T> GetByIdAsync(int id)
         {
-            var result = context.Set<T>()
+            var result = await context.Set<T>()
                 .Where(x => x.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
 
             return result;
 
         }
 
-        public bool Exists(int id)
+        public async Task<bool> ExistAsync(int id)
         {
-            return context.Set<T>().Any(x => x.Id == id);
+            return await context.Set<T>().AnyAsync(x => x.Id == id);
         }
-        public void SaveChanges()
+        public async Task SaveChangesAsync()
         {
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
         public IQueryable<object> GetOpportuntyByPageSize(int pageSize 
             , int pageNumber ,Expression<Func<T , bool >> where  

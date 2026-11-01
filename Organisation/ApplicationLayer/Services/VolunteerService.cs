@@ -11,14 +11,14 @@ namespace OrganisationSystem.ApplicationLayer.Services
         VolunteerValidator volunteerValidator)
     {
 
-        public Volunteer Add(VolunteerDto volunteerDto)
+        public async Task<Volunteer> AddAsync(VolunteerDto volunteerDto)
         {
             DateOnly? date = volunteerDto.DateOfBirth;
 
             volunteerValidator.ValidateDateOfBirth(date);
 
             var orgId = volunteerDto.OrgnisationId;
-            if (!orgRepo.Exists(orgId))
+            if (!await orgRepo.ExistAsync(orgId))
             {
                 throw new ArgumentException("Organisation id not exist ");
             }
@@ -33,15 +33,15 @@ namespace OrganisationSystem.ApplicationLayer.Services
                  volunteerDto.MaritalStatus
             );
 
-            volunteerRepo.Add(volunteer);
+            await volunteerRepo.AddAsync(volunteer);
 
 
             return volunteer;
         }
 
-        public VolunteerResponseDto GetById(int id)
+        public async Task<VolunteerResponseDto> GetByIdAsync(int id)
         {
-            var volunteer = volunteerRepo.GetSpecificById(id , x => new VolunteerResponseDto
+            var volunteer = await volunteerRepo.GetSpecificByIdAsync(id , x => new VolunteerResponseDto
             {
                 Id = x.Id,
                 ReferenceId = x.ReferenceId,
@@ -55,10 +55,10 @@ namespace OrganisationSystem.ApplicationLayer.Services
             return volunteer;
         }
 
-        public UpdatedVolunteerDto UpdateVolunteer(int id, UpdateVolunteerDto updateVolunteerDto)
+        public async Task<UpdatedVolunteerDto> UpdateVolunteerAsync(int id, UpdateVolunteerDto updateVolunteerDto)
         {
 
-            var volunteer = volunteerRepo.GetById(id);
+            var volunteer = await volunteerRepo.GetByIdAsync(id);
 
             if (volunteer == null)
             {
@@ -73,7 +73,7 @@ namespace OrganisationSystem.ApplicationLayer.Services
 
             var orgId = updateVolunteerDto.OrganisationId;
 
-            if (!orgRepo.Exists(orgId))
+            if (!await orgRepo.ExistAsync(orgId))
             {
                 throw new ArgumentException("Organisation id not exist ");
             }
@@ -89,7 +89,7 @@ namespace OrganisationSystem.ApplicationLayer.Services
 
             try
             {
-                volunteerRepo.SaveChanges();
+               await volunteerRepo.SaveChangesAsync();
             }
             catch (DbUpdateException ex)
             {
@@ -113,9 +113,9 @@ namespace OrganisationSystem.ApplicationLayer.Services
 
         }
 
-        public PagedResult GetByPageSize(int pagesize, int pagenumber)
+        public async Task<PagedResult> GetByPageSizeAsync(int pagesize, int pagenumber)
         {
-            int totalCount = volunteerRepo.GetAll().Count();
+            int totalCount = await volunteerRepo.GetAll().CountAsync();
 
             var result = volunteerRepo.GetByPageSize(pagesize , pagenumber , (x => new VolunteerResponseDto()
             {

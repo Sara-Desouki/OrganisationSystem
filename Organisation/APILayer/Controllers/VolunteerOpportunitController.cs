@@ -13,12 +13,12 @@ namespace OrganisationSystem.APILayer.Controllers
     {
         [HttpPost]
         [Authorize(Roles = "Admin,Volunteer")]
-        public IActionResult Add(VolunteerOpportunityDto volunteerOpportunitDto)
+        public async Task<IActionResult> AddAsync(VolunteerOpportunityDto volunteerOpportunitDto)
         {
             ApiResponse<VolunteerOpportunity> apiResponse = new ApiResponse<VolunteerOpportunity>();
             try
             {
-                var result = opportuntyService.Add(volunteerOpportunitDto);
+                var result = await opportuntyService.AddAsync(volunteerOpportunitDto);
                 return Ok(apiResponse.Successed(result));
             }
             catch (Exception ex)
@@ -30,13 +30,13 @@ namespace OrganisationSystem.APILayer.Controllers
 
         [HttpGet]
        [Authorize(Roles = "Admin,Volunteer")]
-        public IActionResult GetOpportuntyByPage(int pageSize, int pageNumber)
+        public async Task<IActionResult> GetOpportuntyByPage(int pageSize, int pageNumber)
         {
             ApiResponse<PagedResult> apiResponse = new ApiResponse<PagedResult>();
 
             try
             {
-                var (result, count) = opportuntyService.GetByPageSize(pageSize, pageNumber);
+                var (result, count) = await opportuntyService.GetByPageSizeAsync(pageSize, pageNumber);
 
                 PagedResult page = new PagedResult()
                 {
@@ -57,12 +57,12 @@ namespace OrganisationSystem.APILayer.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin,Volunteer")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
             ApiResponse<OpportunityDetailsDto> apiResponse = new ApiResponse<OpportunityDetailsDto>();
             try
             {
-                var result = opportuntyService.GetById(id);
+                var result = await opportuntyService.GetByIdAsync(id);
                 return Ok(apiResponse.Successed(result));
             }
             catch (Exception ex)
@@ -73,13 +73,13 @@ namespace OrganisationSystem.APILayer.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Admin,Volunteer")]
-        public IActionResult UpdateOpportunity(int id, VolunteerOpportunityDto dto)
+        public async Task<IActionResult> UpdateOpportunity(int id, VolunteerOpportunityDto dto)
         {
             ApiResponse<UpdatedOpportunity> apiResponse = new ApiResponse<UpdatedOpportunity>();
 
             try
             {
-                var result = opportuntyService.UpdateOpportunty(id, dto);
+                var result = await opportuntyService.UpdateOpportuntyAsync(id, dto);
                 return Ok(apiResponse.Successed(result));
             }
             catch (Exception ex)
@@ -90,12 +90,12 @@ namespace OrganisationSystem.APILayer.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin,Volunteer")]
-        public IActionResult PublishedOpportunty(int id)
+        public async Task<IActionResult> PublishedOpportunty(int id)
         {
             ApiResponse<VolunteerOpportunity> apiResponse = new ApiResponse<VolunteerOpportunity>();
             try
             {
-                var result = opportuntyService.PublishedOpportunty(id);
+                var result = await opportuntyService.PublishedOpportuntyAsync(id);
                 return Ok(apiResponse.Successed(result));
             }
             catch (Exception ex)
@@ -106,12 +106,12 @@ namespace OrganisationSystem.APILayer.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin,Volunteer")]
-        public IActionResult CancelOpportunity(int id)
+        public async Task<IActionResult> CancelOpportunityAsync(int id)
         {
             ApiResponse<VolunteerOpportunity> apiResponse = new ApiResponse<VolunteerOpportunity>();
             try
             {
-                var result = opportuntyService.CanceledOppotunity(id);
+                var result = await opportuntyService.CanceledOppotunityAsync(id);
                 return Ok(apiResponse.Successed(result));
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
-﻿using OrganisationSystem.ApplicationLayer.DTOs;
+﻿using Microsoft.EntityFrameworkCore;
+using OrganisationSystem.ApplicationLayer.DTOs;
 using OrganisationSystem.ApplicationLayer.Interfaces;
 using OrganisationSystem.Domain_Layer.Enums;
 using OrganisationSystem.Domain_Layer.Models;
@@ -10,12 +11,11 @@ namespace OrganisationSystem.ApplicationLayer.Services
     public class VolunteerOpportunityService( IGenericRepo<VolunteerOpportunity> opportunityRepo ,
         IGenericRepo<Organisations> orgRepo)
     {
-
-        public VolunteerOpportunity Add(VolunteerOpportunityDto opportunityDto)
+        public async Task<VolunteerOpportunity> AddAsync(VolunteerOpportunityDto opportunityDto)
 
         {
 
-            if(!orgRepo.Exists(opportunityDto.OrganisationId))
+            if(! await orgRepo.ExistAsync(opportunityDto.OrganisationId))
             {
                 throw new ArgumentException("Organisation id not exist ");
             }
@@ -37,12 +37,12 @@ namespace OrganisationSystem.ApplicationLayer.Services
                 opportunityDto.Type
                 );
 
-            opportunityRepo.Add(volunteerOpportunity);
+           await opportunityRepo.AddAsync(volunteerOpportunity);
 
             return volunteerOpportunity ;
         }
 
-        public ( IQueryable<object> , int ) GetByPageSize(int pageSize , int pageNumber)
+        public async Task<( IQueryable<object> , int )> GetByPageSizeAsync(int pageSize , int pageNumber)
         {
             var result = opportunityRepo.GetOpportuntyByPageSize(pageSize , pageNumber 
                 ,(x => x.Status == OpportunityStatus.Published)
@@ -60,14 +60,14 @@ namespace OrganisationSystem.ApplicationLayer.Services
                     requiredVolunteers = x.RequiredVolunteers,
                     status = x.Status
                 }));
-            int opportuntyCount = opportunityRepo.GetOppertuntyCount(x => x.Status == OpportunityStatus.Published).Count();
+            int opportuntyCount = await opportunityRepo.GetOppertuntyCount(x => x.Status == OpportunityStatus.Published).CountAsync();
             return  ( result , opportuntyCount)  ;
         }
 
-        public OpportunityDetailsDto GetById(int id)
+        public async  Task<OpportunityDetailsDto> GetByIdAsync(int id)
         {
             
-            var result = opportunityRepo.GetSpecificById(id, x => new OpportunityDetailsDto
+            var result = await opportunityRepo.GetSpecificByIdAsync(id, x => new OpportunityDetailsDto
             {
                 Title = x.Title,
                 Description = x.Description,
@@ -78,13 +78,13 @@ namespace OrganisationSystem.ApplicationLayer.Services
                 OpportunityStatus = x.Status
             });
 
-            return result ?? throw new KeyNotFoundException($"Opportunity with id {id} was not found."); ;
+            return result ?? throw new KeyNotFoundException($"Opportunity with id {id} was not found."); 
         }
 
-        public   UpdatedOpportunity  UpdateOpportunty(int id , VolunteerOpportunityDto opportunity)
+        public async  Task<UpdatedOpportunity>  UpdateOpportuntyAsync(int id , VolunteerOpportunityDto opportunity)
 
         {
-            var volunteerOpportunty = opportunityRepo.GetById(id);
+            var volunteerOpportunty = await opportunityRepo.GetByIdAsync(id);
 
             if (volunteerOpportunty == null)
             {
@@ -94,7 +94,7 @@ namespace OrganisationSystem.ApplicationLayer.Services
             opportunity.ValidEndDate();
             opportunity.VaildVolunteerNumber();
 
-            if(!orgRepo.Exists(opportunity.OrganisationId))
+            if(!await orgRepo.ExistAsync(opportunity.OrganisationId))
             {
                 throw new ArgumentException("Organisation id not exist ");
             }
@@ -103,7 +103,7 @@ namespace OrganisationSystem.ApplicationLayer.Services
                 , opportunity.OrganisationId, opportunity.StartDate, opportunity.EndDate, opportunity.RequiredVolunteers, opportunity.Type);
 
 
-           opportunityRepo.SaveChanges();
+           await opportunityRepo.SaveChangesAsync();
 
             return new UpdatedOpportunity() 
             {
@@ -116,10 +116,10 @@ namespace OrganisationSystem.ApplicationLayer.Services
             };
         }
 
-        public VolunteerOpportunity PublishedOpportunty ( int id)
+        public async Task<VolunteerOpportunity> PublishedOpportuntyAsync ( int id)
         {
 
-           var result = opportunityRepo.GetById(id);
+           var result = await opportunityRepo.GetByIdAsync(id);
             if(result == null)
             {
                 throw new ArgumentException("Volunteer Opportunity not found");
@@ -129,26 +129,26 @@ namespace OrganisationSystem.ApplicationLayer.Services
             result.ValidEndDate();
             result.PublishedStatus();
 
-            opportunityRepo.SaveChanges();
+           await opportunityRepo.SaveChangesAsync();
 
             return result;
         }
 
-        public VolunteerOpportunity CanceledOppotunity( int id)
+        public async Task<VolunteerOpportunity> CanceledOppotunityAsync( int id)
         {
-            var result = opportunityRepo.GetById(id);
+            var result = await opportunityRepo.GetByIdAsync(id);
             if (result == null)
             {
                 throw new ArgumentException("Volunteer Opportunity not found");
             }
             result.CanceledStatus();
 
-            opportunityRepo.SaveChanges ();
+            await opportunityRepo.SaveChangesAsync ();
 
             return result;
         }
     }
 }
-;
+
 
 

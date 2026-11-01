@@ -40,7 +40,7 @@ namespace OrganisationSystem.Tests
                 Title = "Test"
             };
             //Act + Assert
-              Assert.Throws<ArgumentException>(() => sut.Add(dto));
+              Assert.Throws<ArgumentException>(() => sut.AddAsync(dto));
            
         }
 
@@ -62,7 +62,7 @@ namespace OrganisationSystem.Tests
 
             //Act + Assert
 
-            Assert.Throws<ArgumentException>(() => sut.Add(result));
+            Assert.Throws<ArgumentException>(() => sut.AddAsync(result));
 
         }
         [Fact]
@@ -79,7 +79,7 @@ namespace OrganisationSystem.Tests
 
             //Act + Assert
 
-            Assert.Throws<ArgumentException>(() => sut.Add(result));
+            Assert.Throws<ArgumentException>(() => sut.AddAsync(result));
         }
 
         [Fact]
@@ -96,11 +96,11 @@ namespace OrganisationSystem.Tests
             organisationRepoMock.Setup(r => r.Exists(1)).Returns(true);
 
             //Act 
-            var opportunity = sut.Add(result);
+            var opportunity = sut.AddAsync(result);
             //assert
             Assert.Equal(1, opportunity.OrganisationId);
             
-            opportunityRepoMock.Verify(r => r.Add(It.IsAny<VolunteerOpportunity>()), Times.Once());
+            opportunityRepoMock.Verify(r => r.AddAsync(It.IsAny<VolunteerOpportunity>()), Times.Once());
         }
 
         [Fact]
@@ -161,12 +161,12 @@ namespace OrganisationSystem.Tests
         public void GetById_OpportunityNotFound_ThrowsKeyNotFoundException()
         {
             opportunityRepoMock
-                .Setup(r => r.GetSpecificById(
+                .Setup(r => r.GetSpecificByIdAsync(
                     99,
                     It.IsAny<Expression<Func<VolunteerOpportunity, OpportunityDetailsDto>>>()))
                 .Returns((OpportunityDetailsDto)null);
 
-            var ex = Assert.Throws<KeyNotFoundException>(() => sut.GetById(99));
+            var ex = Assert.Throws<KeyNotFoundException>(() => sut.GetByIdAsync(99));
             Assert.Contains("99", ex.Message);
         }
 

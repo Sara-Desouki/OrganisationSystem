@@ -17,12 +17,12 @@ namespace OrganisationSystem.ApiLayer.Controllers
     {
        [HttpPost]
        [Authorize(Roles = "Admin")]
-        public ActionResult Add(OrganisationDto organisationDto)
+        public async Task<ActionResult> AddAsync(OrganisationDto organisationDto)
         {
             ApiResponse<Organisations>  apiRequest = new ApiResponse<Organisations>();
             try
             {
-                var result = organisationServer.Add(organisationDto);
+                var result = await organisationServer.AddAsync(organisationDto);
 
                 return Ok(apiRequest.Successed(result));
             }
@@ -35,11 +35,11 @@ namespace OrganisationSystem.ApiLayer.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public ActionResult GetByPageSize(int pagesize , int pagenumber)
+        public async Task<ActionResult> GetByPageSize(int pagesize , int pagenumber)
         {
             ApiResponse<PagedResult> apiResponse = new ApiResponse<PagedResult>();
 
-            var result = organisationServer.GetByPageSize(pagesize, pagenumber);
+            var result = await organisationServer.GetByPageSizeAsync(pagesize, pagenumber);
             return Ok(apiResponse.Successed(result));
         }
 

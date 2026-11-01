@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OrganisationSystem.ApplicationLayer.DTOs;
 using OrganisationSystem.ApplicationLayer.Interfaces;
 using OrganisationSystem.Models;
@@ -9,22 +10,22 @@ namespace OrganisationSystem.ApplicationLayer.Services
 {
     public class OrganisationService(IGenericRepo<Organisations> orgRepo)
     {
-        public Organisations Add(OrganisationDto organisationDto)
+        public  async Task<Organisations> AddAsync(OrganisationDto organisationDto)
         {
 
             var Org = new Organisations(organisationDto.Name, organisationDto.Email, organisationDto.Type);
           
 
-            orgRepo.Add(Org);
+           await orgRepo.AddAsync(Org);
 
 
             return Org;
 
         }
         
-        public PagedResult GetByPageSize(int pagesize, int pagenumber)
+        public async Task<PagedResult> GetByPageSizeAsync(int pagesize, int pagenumber)
         {
-            int totalCount = orgRepo.GetAll().Count();
+            int totalCount = await orgRepo.GetAll().CountAsync();
 
             var result = orgRepo.GetByPageSize(pagesize, pagenumber , (x => x) );
 

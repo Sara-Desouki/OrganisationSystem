@@ -5,12 +5,12 @@ namespace OrganisationSystem.ApplicationLayer.Interfaces
 {
     public interface IGenericRepo<T> where T : BaseModel
     {
-        void Add(T entity);
-        bool Exists(int id);
+        Task AddAsync(T entity);
+        Task<bool> ExistAsync(int id);
         IQueryable<T> GetAll();
-        T GetById(int id);
-        void SaveChanges();
-        TResult GetSpecificById<TResult>(int id, Expression<Func<T, TResult>> select);
+        Task<T> GetByIdAsync(int id);
+        Task SaveChangesAsync();
+        Task<TResult> GetSpecificByIdAsync<TResult>(int id, Expression<Func<T, TResult>> select);
         IQueryable<object> GetByPageSize(int pageSize, int pageNumber,  Expression<Func<T, object>> select);
 
         public IQueryable<object> GetOpportuntyByPageSize(int pageSize
