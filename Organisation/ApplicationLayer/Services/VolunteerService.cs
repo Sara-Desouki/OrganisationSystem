@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using OrganisationSystem.ApplicationLayer.DTOs;
 using OrganisationSystem.ApplicationLayer.Interfaces;
 using OrganisationSystem.ApplicationLayer.Validator;
@@ -8,7 +9,7 @@ namespace OrganisationSystem.ApplicationLayer.Services
 {
     public class VolunteerService(IGenericRepo<Volunteer> volunteerRepo,
         IGenericRepo<Organisations> orgRepo,
-        VolunteerValidator volunteerValidator)
+        VolunteerValidator volunteerValidator , IMapper _mapper)
     {
 
         public async Task<Volunteer> AddAsync(VolunteerDto volunteerDto)
@@ -23,15 +24,7 @@ namespace OrganisationSystem.ApplicationLayer.Services
                 throw new ArgumentException("Organisation id not exist ");
             }
 
-            var volunteer = new Volunteer(
-
-                 volunteerDto.Name,
-                 volunteerDto.Email,
-                 volunteerDto.OrgnisationId,
-                 volunteerDto.PhoneNumber,
-                 volunteerDto.DateOfBirth,
-                 volunteerDto.MaritalStatus
-            );
+            var volunteer = _mapper.Map<Volunteer>(volunteerDto);
 
             await volunteerRepo.AddAsync(volunteer);
 

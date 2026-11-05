@@ -1,6 +1,7 @@
 
 using Microsoft.IdentityModel.Tokens;
 using OrganisationSystem.APILayer;
+using OrganisationSystem.ApplicationLayer;
 using OrganisationSystem.ApplicationLayer.Interfaces;
 using OrganisationSystem.ApplicationLayer.Services;
 using OrganisationSystem.ApplicationLayer.Validator;
@@ -29,6 +30,8 @@ namespace Organisation
             builder.Services.AddScoped<VolunteerService>();
             builder.Services.AddScoped<VolunteerValidator>();
             builder.Services.AddScoped<VolunteerOpportunityService>();
+     
+            builder.Services.AddAutoMapper(cfg => cfg.AddMaps(typeof(MappingProfile)));
 
             builder.Services.AddScoped<IGenericRepo<Volunteer>, GenericRepo<Volunteer>>();
             builder.Services.AddScoped<IGenericRepo<Organisations>, GenericRepo<Organisations>>();

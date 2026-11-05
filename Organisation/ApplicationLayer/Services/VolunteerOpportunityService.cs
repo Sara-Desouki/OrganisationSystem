@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using OrganisationSystem.ApplicationLayer.DTOs;
 using OrganisationSystem.ApplicationLayer.Interfaces;
 using OrganisationSystem.Domain_Layer.Enums;
@@ -9,7 +10,7 @@ using System.ComponentModel;
 namespace OrganisationSystem.ApplicationLayer.Services
 {
     public class VolunteerOpportunityService( IGenericRepo<VolunteerOpportunity> opportunityRepo ,
-        IGenericRepo<Organisations> orgRepo)
+        IGenericRepo<Organisations> orgRepo , IMapper _Mapper)
     {
         public async Task<VolunteerOpportunity> AddAsync(VolunteerOpportunityDto opportunityDto)
 
@@ -26,16 +27,8 @@ namespace OrganisationSystem.ApplicationLayer.Services
 
             opportunityDto.VaildVolunteerNumber();
 
-            var volunteerOpportunity = new VolunteerOpportunity(
-                opportunityDto.Title,
-                opportunityDto.Description,
-                opportunityDto.OrganisationId,
-                opportunityDto.Location,
-                opportunityDto.StartDate,
-                opportunityDto.EndDate,
-                opportunityDto.RequiredVolunteers,
-                opportunityDto.Type
-                );
+            var volunteerOpportunity = _Mapper.Map<VolunteerOpportunity>(opportunityDto);
+
 
            await opportunityRepo.AddAsync(volunteerOpportunity);
 
